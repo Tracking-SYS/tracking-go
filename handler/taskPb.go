@@ -7,7 +7,7 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/trace"
 
-	servicesPb "github.com/lk153/proto-tracking-gen/go/services"
+	servicesPb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 )
 
 //TaskPBHandler
@@ -31,8 +31,8 @@ func NewTaskPBHandler(
 //Get List of Task
 func (s *TaskPBHandler) Get(
 	ctx context.Context,
-	req *servicesPb.TaskListRequest,
-) (*servicesPb.TaskListResponse, error) {
+	req *servicesPb.TaskServiceGetRequest,
+) (*servicesPb.TaskServiceGetResponse, error) {
 	ctx, span := s.tracer.Start(ctx, "Get")
 	defer span.End()
 
@@ -42,7 +42,7 @@ func (s *TaskPBHandler) Get(
 	tasks := s.taskService.GetList(ctx, int(limit), int(page), ids)
 	data := s.taskService.Transform(tasks)
 
-	return &servicesPb.TaskListResponse{
+	return &servicesPb.TaskServiceGetResponse{
 		Data: data,
 	}, nil
 }
@@ -50,15 +50,15 @@ func (s *TaskPBHandler) Get(
 //GetSingle Task
 func (s *TaskPBHandler) GetSingle(
 	ctx context.Context,
-	req *servicesPb.SingleTaskRequest,
-) (*servicesPb.SingleTaskResponse, error) {
+	req *servicesPb.TaskServiceGetSingleRequest,
+) (*servicesPb.TaskServiceGetSingleResponse, error) {
 	ctx, span := s.tracer.Start(ctx, "GetSingle")
 	defer span.End()
 
 	ID := req.GetId()
 	task := s.taskService.GetSingle(ctx, int(ID))
 	data := s.taskService.TransformSingle(task)
-	return &servicesPb.SingleTaskResponse{
+	return &servicesPb.TaskServiceGetSingleResponse{
 		Data: data,
 	}, nil
 }
@@ -66,8 +66,8 @@ func (s *TaskPBHandler) GetSingle(
 //Create Task
 func (s *TaskPBHandler) Create(
 	ctx context.Context,
-	req *servicesPb.TaskCreateRequest,
-) (*servicesPb.TaskCreateResponse, error) {
+	req *servicesPb.TaskServiceCreateRequest,
+) (*servicesPb.TaskServiceCreateResponse, error) {
 	ctx, span := s.tracer.Start(ctx, "Create")
 	defer span.End()
 
@@ -75,7 +75,7 @@ func (s *TaskPBHandler) Create(
 	task := s.taskService.Create(ctx, data)
 	data = s.taskService.TransformSingle(task)
 
-	return &servicesPb.TaskCreateResponse{
+	return &servicesPb.TaskServiceCreateResponse{
 		Data: data,
 	}, nil
 }

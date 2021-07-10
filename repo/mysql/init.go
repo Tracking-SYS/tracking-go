@@ -1,7 +1,7 @@
 package mysql
 
 import (
-	kafkaLib "github.com/lk153/go-lib/kafka"
+	kafkaLib "github.com/Tracking-SYS/go-lib/kafka"
 )
 
 var (

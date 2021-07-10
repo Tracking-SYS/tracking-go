@@ -20,7 +20,7 @@ before_install:
 - make
 - sudo make install
 install:
-- cd /home/travis/gopath/src/github.com/lk153/tracking-go
+- cd /home/travis/gopath/src/github.com/Tracking-SYS/tracking-go
 - go mod tidy
 - go mod vendor
 before_script:

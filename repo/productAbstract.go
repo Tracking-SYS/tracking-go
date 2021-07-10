@@ -3,7 +3,7 @@ package repo
 import (
 	"context"
 
-	entities_pb "github.com/lk153/proto-tracking-gen/go/entities"
+	entities_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/entities"
 )
 
 //ProductRepoInterface ...

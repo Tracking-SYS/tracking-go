@@ -8,9 +8,9 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 
-	errorsLib "github.com/lk153/go-lib/errors"
-	httplib "github.com/lk153/go-lib/http"
-	services_pb "github.com/lk153/proto-tracking-gen/go/services"
+	errorsLib "github.com/Tracking-SYS/go-lib/errors"
+	httplib "github.com/Tracking-SYS/go-lib/http"
+	services_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 
 	"factory/exam/utils/gateway"
 	"factory/exam/utils/shutdown"

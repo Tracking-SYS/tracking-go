@@ -3,7 +3,7 @@ package handler
 import (
 	"github.com/google/wire"
 
-	services_pb "github.com/lk153/proto-tracking-gen/go/services"
+	services_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 )
 
 //GraphSet ...

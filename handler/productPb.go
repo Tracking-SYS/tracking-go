@@ -7,7 +7,7 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/trace"
 
-	servicesPb "github.com/lk153/proto-tracking-gen/go/services"
+	servicesPb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 )
 
 //ProductPBHandler
@@ -30,7 +30,7 @@ func NewProductPBHandler(
 
 //Get
 func (p *ProductPBHandler) Get(ctx context.Context,
-	req *servicesPb.ProductRequest) (*servicesPb.ProductResponse, error) {
+	req *servicesPb.ProductServiceGetRequest) (*servicesPb.ProductServiceGetResponse, error) {
 	ctx, span := p.tracer.Start(ctx, "Get")
 	defer span.End()
 
@@ -40,14 +40,14 @@ func (p *ProductPBHandler) Get(ctx context.Context,
 	products := p.productService.GetProducts(ctx, int(limit), int(page), ids)
 	data := p.productService.Transform(products)
 
-	return &servicesPb.ProductResponse{
+	return &servicesPb.ProductServiceGetResponse{
 		Data: data,
 	}, nil
 }
 
 //GetSingle
 func (p *ProductPBHandler) GetSingle(ctx context.Context,
-	req *servicesPb.SingleProductRequest) (*servicesPb.SingleProductResponse, error) {
+	req *servicesPb.ProductServiceGetSingleRequest) (*servicesPb.ProductServiceGetSingleResponse, error) {
 	ctx, span := p.tracer.Start(ctx, "GetSingle")
 	defer span.End()
 
@@ -55,14 +55,14 @@ func (p *ProductPBHandler) GetSingle(ctx context.Context,
 	product := p.productService.GetProduct(ctx, int(ID))
 	data := p.productService.TransformSingle(product)
 
-	return &servicesPb.SingleProductResponse{
+	return &servicesPb.ProductServiceGetSingleResponse{
 		Data: data,
 	}, nil
 }
 
 //Create
 func (p *ProductPBHandler) Create(ctx context.Context,
-	req *servicesPb.ProductCreateRequest) (*servicesPb.ProductCreateResponse, error) {
+	req *servicesPb.ProductServiceCreateRequest) (*servicesPb.ProductServiceCreateResponse, error) {
 	ctx, span := p.tracer.Start(ctx, "Create")
 	defer span.End()
 
@@ -70,7 +70,7 @@ func (p *ProductPBHandler) Create(ctx context.Context,
 	product := p.productService.CreateProduct(ctx, data)
 	data = p.productService.TransformSingle(product)
 
-	return &servicesPb.ProductCreateResponse{
+	return &servicesPb.ProductServiceCreateResponse{
 		Data: data,
 	}, nil
 }

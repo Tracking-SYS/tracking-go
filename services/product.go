@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strconv"
 
-	entities_pb "github.com/lk153/proto-tracking-gen/go/entities"
+	entities_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/entities"
 )
 
 var _ ProductServiceInterface = &ProductService{}

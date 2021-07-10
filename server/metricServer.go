@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi"
 	otel_global "go.opentelemetry.io/otel/metric/global"
 
-	prometheusLib "github.com/lk153/go-lib/prometheus"
+	prometheusLib "github.com/Tracking-SYS/go-lib/prometheus"
 
 	"factory/exam/config"
 )

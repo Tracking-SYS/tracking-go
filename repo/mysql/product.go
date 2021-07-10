@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"os"
 
-	kafkaLib "github.com/lk153/go-lib/kafka"
-	"github.com/lk153/go-lib/kafka/ccloud"
-	entities_pb "github.com/lk153/proto-tracking-gen/go/entities"
+	kafkaLib "github.com/Tracking-SYS/go-lib/kafka"
+	"github.com/Tracking-SYS/go-lib/kafka/ccloud"
+	entities_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/entities"
 )
 
 var _ repo.ProductRepoInterface = &ProductMySQLRepo{}
