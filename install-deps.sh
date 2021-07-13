@@ -1,6 +1,6 @@
 #!/bin/bash
 export RDK_PREFIX=/usr/local
-wget https://github.com/edenhill/librdkafka/archive/v1.7.0.tar.gz  -O - | sudo tar -xz
+sudo wget https://github.com/edenhill/librdkafka/archive/v1.7.0.tar.gz  -O - | sudo tar -xz
 cd librdkafka-1.7.0/
 ./configure --prefix=$RDK_PREFIX
 sudo make 
