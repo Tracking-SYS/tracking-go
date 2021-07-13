@@ -10,9 +10,9 @@ import (
 	"factory/exam/config"
 	"factory/exam/handler"
 	"factory/exam/infra"
+	"factory/exam/repo/cache"
 	"factory/exam/repo/mysql"
 	"factory/exam/server"
-	"factory/exam/server/kafka"
 	"factory/exam/services"
 )
 
@@ -25,10 +25,13 @@ func buildServer(ctx context.Context) (*server.Manager, error) {
 		return nil, err
 	}
 	productMySQLRepo := mysql.NewProductMySQLRepo(connPool)
-	productService := services.ProductProvider(productMySQLRepo)
-	productHandler := handler.ProductHandlerProvider(productService)
+	redisCache := cache.NewRedisCacheRepo()
+	productService := services.ProductProvider(productMySQLRepo, redisCache)
 	productPBHandler := handler.NewProductPBHandler(productService)
-	httpServer, err := server.HTTPProvider(ctx, productHandler, productPBHandler)
+	taskMySQLRepo := mysql.NewTaskMySQLRepo(connPool)
+	taskService := services.TaskProvider(taskMySQLRepo, redisCache)
+	taskPBHandler := handler.NewTaskPBHandler(taskService)
+	httpServer, err := server.HTTPProvider(ctx, productPBHandler, taskPBHandler)
 	if err != nil {
 		return nil, err
 	}
@@ -37,14 +40,10 @@ func buildServer(ctx context.Context) (*server.Manager, error) {
 	if err != nil {
 		return nil, err
 	}
-	kafkaConsumer, err := kafka.NewKafkaConsumer()
+	kafkaConsumer, err := server.NewKafkaConsumer(productService, taskService, productMySQLRepo)
 	if err != nil {
 		return nil, err
 	}
-	kafkaProducer, err := kafka.NewKafkaProducer()
-	if err != nil {
-		return nil, err
-	}
-	manager := server.NewServerManager(httpServer, metricServer, kafkaConsumer, kafkaProducer)
+	manager := server.NewServerManager(httpServer, metricServer, kafkaConsumer)
 	return manager, nil
 }

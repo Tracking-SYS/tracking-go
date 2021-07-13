@@ -8,4 +8,7 @@ import (
 var GraphSet = wire.NewSet(
 	ProductProvider,
 	wire.Bind(new(ProductServiceInterface), new(*ProductService)),
+
+	TaskProvider,
+	wire.Bind(new(TaskServiceInterface), new(*TaskService)),
 )

@@ -8,10 +8,10 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 
+	errorsLib "github.com/Tracking-SYS/go-lib/errors"
 	httplib "github.com/Tracking-SYS/go-lib/http"
 	services_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 
-	"factory/exam/handler"
 	"factory/exam/utils/gateway"
 	"factory/exam/utils/shutdown"
 )
@@ -25,24 +25,31 @@ type HTTPServer struct {
 //HTTPProvider ...
 func HTTPProvider(
 	ctx context.Context,
-	productHandler *handler.ProductHandler,
 	prodPBHandler services_pb.ProductServiceServer,
+	taskPBHandler services_pb.TaskServiceServer,
 ) (*HTTPServer, error) {
 	router := httplib.NewHTTPBuilder()
 
 	gateway := runtime.NewServeMux(gateway.DefaultGateMuxOpts()...)
-	err := services_pb.RegisterProductServiceHandlerServer(ctx, gateway, prodPBHandler)
+	err := errorsLib.ErrAny(
+		services_pb.RegisterProductServiceHandlerServer(ctx, gateway, prodPBHandler),
+		services_pb.RegisterTaskServiceHandlerServer(ctx, gateway, taskPBHandler),
+	)
+
 	if err != nil {
 		return nil, err
 	}
 
-	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome changes"))
-	})
+	userMetaMiddleware := httplib.NewRequestExtractor(
+		httplib.NewRequestExtractorConf(httplib.CtxUserMetadata, httplib.ExtractUserMetaFromRequest),
+	)
 
-	router.Get("/products", productHandler.Get)
 	router.Route("/", func(r chi.Router) {
+		r.Use(userMetaMiddleware)
 		r.Mount("/v1", gateway)
+		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			w.Write([]byte("welcome changes"))
+		})
 	})
 
 	server := &http.Server{

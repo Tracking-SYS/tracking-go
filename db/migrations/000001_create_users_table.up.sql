@@ -5,7 +5,9 @@ CREATE TABLE `products` (
   `name` varchar(255) NOT NULL,
   `price` int NOT NULL,
   `type` varchar(255) NOT NULL,
-  `status` tinyint NOT NULL
+  `status` tinyint NOT NULL,
+  `creation_time`     DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `modification_time` DATETIME ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE='MyISAM' COLLATE 'utf8_unicode_ci';
 
 INSERT INTO `products` (`name`, `price`, `type`, `status`)

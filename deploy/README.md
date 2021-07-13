@@ -3,6 +3,9 @@
 ## Installation
 
 1. Install Travis CLI
+```
+gem install travis
+```
 
 2. Create API Token on Github
 
@@ -15,6 +18,6 @@ travis login --pro --com --github-token <github personal access token>
 
 4. Add token to your ```.travis.yml```
 ```
-travis encrypt CI_USER_TOKEN="<github personal access token>" --pro --com --add 
+travis encrypt CI_USER_TOKEN="<github personal access token>" --pro --com --add
 ```
 
