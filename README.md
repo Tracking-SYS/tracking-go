@@ -1,17 +1,9 @@
 # TRACKING SYSTEM
-[![](https://travis-ci.com/Tracking-SYS/tracking-go.svg?branch=main)](https://travis-ci.com/github/Tracking-SYS/tracking-go/builds)
+[![](https://travis-ci.com/Tracking-SYS/tracking-go.svg?branch=main)](https://travis-ci.com/github/Tracking-SYS/tracking-go/builds) 
 
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=bugs)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=bugs)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go) [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=code_smells)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go) [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=ncloc)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go) 
 
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=code_smells)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go)
-
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=ncloc)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go)
-
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go)
-
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=security_rating)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go)
-
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=security_rating)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Tracking-SYS_tracking-go&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=Tracking-SYS_tracking-go)
 ### Installation
 
 1. Set GOPRIVATE environment to download private package
