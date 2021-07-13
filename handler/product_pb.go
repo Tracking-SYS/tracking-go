@@ -7,7 +7,7 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/trace"
 
-	services_pb "github.com/lk153/proto-tracking-gen/go/services"
+	services_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 )
 
 //ProductPBHandler ...
@@ -30,7 +30,7 @@ func NewProductPBHandler(
 
 //Get ...
 func (p *ProductPBHandler) Get(ctx context.Context,
-	req *services_pb.ProductRequest) (*services_pb.ProductResponse, error) {
+	req *services_pb.ProductServiceGetRequest) (*services_pb.ProductServiceGetResponse, error) {
 	ctx, span := p.tracer.Start(ctx, "Get")
 	defer span.End()
 
@@ -38,7 +38,7 @@ func (p *ProductPBHandler) Get(ctx context.Context,
 	products := p.productService.GetProducts(ctx, int(limit))
 	data := p.productService.Transform(products)
 
-	return &services_pb.ProductResponse{
+	return &services_pb.ProductServiceGetResponse{
 		Data: data,
 	}, nil
 }

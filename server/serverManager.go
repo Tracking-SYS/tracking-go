@@ -2,9 +2,11 @@ package server
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/getsentry/sentry-go"
+	tracesdk "go.opentelemetry.io/otel/sdk/trace"
 	"golang.org/x/sync/errgroup"
 
 	"factory/exam/server/kafka"
@@ -19,7 +21,7 @@ type Manager struct {
 	metricServer  *MetricServer
 	kafkaConsumer *kafka.KafkaConsumer
 	kafkaProducer *kafka.KafkaProducer
-	tracerFlush   func()
+	traceProvider *tracesdk.TracerProvider
 }
 
 //NewServerManager ...
@@ -40,7 +42,7 @@ func NewServerManager(
 //StartAll ...
 func (m *Manager) StartAll(parentCtx context.Context) error {
 	logger.InitLogger()
-	m.tracerFlush = tracer.InitTracer()
+	m.traceProvider = tracer.InitTracer()
 	eg, ctx := errgroup.WithContext(parentCtx)
 
 	//Start http server on port 8080
@@ -69,6 +71,16 @@ func (m *Manager) StartAll(parentCtx context.Context) error {
 //CloseAll ...
 func (m *Manager) CloseAll() error {
 	sentry.Flush(2 * time.Second)
-	m.tracerFlush()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	defer func(ctx context.Context) {
+		// Do not make the application hang when it is shutdown.
+		ctx, cancel = context.WithTimeout(ctx, time.Second*5)
+		defer cancel()
+		if err := m.traceProvider.Shutdown(ctx); err != nil {
+			log.Fatal(err)
+		}
+	}(ctx)
+
 	return nil
 }

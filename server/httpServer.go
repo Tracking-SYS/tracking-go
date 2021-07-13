@@ -8,8 +8,8 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 
-	httplib "github.com/lk153/go-lib/http"
-	services_pb "github.com/lk153/proto-tracking-gen/go/services"
+	httplib "github.com/Tracking-SYS/go-lib/http"
+	services_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 
 	"factory/exam/handler"
 	"factory/exam/utils/gateway"
