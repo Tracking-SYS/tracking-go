@@ -1,8 +1,8 @@
 #!/bin/bash
-sudo apt-key del 41468433
-apt-get install -y --no-install-recommends apt-utils wget gnupg software-properties-common
-apt-get install -y apt-transport-https ca-certificates
-wget -qO - https://packages.confluent.io/deb/6.2/archive.key | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://packages.confluent.io/deb/6.2 stable main"
-sudo apt-get update
-sudo apt-get install -y librdkafka-dev
+export RDK_PREFIX=/usr/local
+wget https://github.com/edenhill/librdkafka/archive/v1.7.0.tar.gz  -O - | sudo tar -xz
+cd librdkafka-1.7.0/
+./configure --prefix=$RDK_PREFIX
+sudo make 
+sudo make install
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$RDK_PREFIX/lib
