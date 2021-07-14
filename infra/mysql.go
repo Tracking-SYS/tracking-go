@@ -3,8 +3,8 @@ package infra
 import (
 	"time"
 
-	"factory/exam/utils/envparser"
-	"factory/exam/utils/logger"
+	"github.com/Tracking-SYS/tracking-go/utils/envparser"
+	"github.com/Tracking-SYS/tracking-go/utils/logger"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

@@ -5,7 +5,7 @@ package main
 import (
 	"context"
 
-	"factory/exam/server"
+	"github.com/Tracking-SYS/tracking-go/server"
 
 	"github.com/google/wire"
 )

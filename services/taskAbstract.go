@@ -5,7 +5,7 @@ import (
 
 	entities_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/entities"
 
-	"factory/exam/repo"
+	"github.com/Tracking-SYS/tracking-go/repo"
 )
 
 //TaskServiceInterface

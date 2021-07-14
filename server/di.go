@@ -3,11 +3,11 @@ package server
 import (
 	"github.com/google/wire"
 
-	"factory/exam/config"
-	"factory/exam/handler"
-	"factory/exam/infra"
-	repo_bind "factory/exam/repo/bind"
-	"factory/exam/services"
+	"github.com/Tracking-SYS/tracking-go/config"
+	"github.com/Tracking-SYS/tracking-go/handler"
+	"github.com/Tracking-SYS/tracking-go/infra"
+	repo_bind "github.com/Tracking-SYS/tracking-go/repo/bind"
+	"github.com/Tracking-SYS/tracking-go/services"
 )
 
 //ServerDeps ...

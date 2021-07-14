@@ -1,4 +1,4 @@
-module factory/exam
+module github.com/Tracking-SYS/tracking-go
 
 // +heroku goVersion go1.15
 go 1.15

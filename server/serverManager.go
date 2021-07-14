@@ -7,9 +7,9 @@ import (
 	"github.com/getsentry/sentry-go"
 	"golang.org/x/sync/errgroup"
 
-	"factory/exam/utils/logger"
-	"factory/exam/utils/shutdown"
-	"factory/exam/utils/tracer"
+	"github.com/Tracking-SYS/tracking-go/utils/logger"
+	"github.com/Tracking-SYS/tracking-go/utils/shutdown"
+	"github.com/Tracking-SYS/tracking-go/utils/tracer"
 )
 
 //Manager ...

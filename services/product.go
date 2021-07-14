@@ -3,10 +3,11 @@ package services
 import (
 	"context"
 	"encoding/json"
-	"factory/exam/repo"
-	"factory/exam/repo/cache"
 	"fmt"
 	"strconv"
+
+	"github.com/Tracking-SYS/tracking-go/repo"
+	"github.com/Tracking-SYS/tracking-go/repo/cache"
 
 	entities_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/entities"
 )

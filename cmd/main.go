@@ -6,7 +6,7 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"factory/exam/utils/shutdown"
+	"github.com/Tracking-SYS/tracking-go/utils/shutdown"
 )
 
 func main() {

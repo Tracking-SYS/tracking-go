@@ -12,8 +12,8 @@ import (
 	httplib "github.com/Tracking-SYS/go-lib/http"
 	services_pb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 
-	"factory/exam/utils/gateway"
-	"factory/exam/utils/shutdown"
+	"github.com/Tracking-SYS/tracking-go/utils/gateway"
+	"github.com/Tracking-SYS/tracking-go/utils/shutdown"
 )
 
 var _ shutdown.ServerAbstract = &HTTPServer{}

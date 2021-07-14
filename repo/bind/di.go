@@ -3,9 +3,9 @@ package bind
 import (
 	"github.com/google/wire"
 
-	"factory/exam/repo"
-	"factory/exam/repo/cache"
-	"factory/exam/repo/mysql"
+	"github.com/Tracking-SYS/tracking-go/repo"
+	"github.com/Tracking-SYS/tracking-go/repo/cache"
+	"github.com/Tracking-SYS/tracking-go/repo/mysql"
 )
 
 //GraphSet Repo

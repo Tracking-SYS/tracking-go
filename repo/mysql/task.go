@@ -3,10 +3,11 @@ package mysql
 import (
 	"context"
 	"encoding/json"
-	"factory/exam/infra"
-	"factory/exam/repo"
 	"fmt"
 	"os"
+
+	"github.com/Tracking-SYS/tracking-go/infra"
+	"github.com/Tracking-SYS/tracking-go/repo"
 
 	kafkaLib "github.com/Tracking-SYS/go-lib/kafka"
 	"github.com/Tracking-SYS/go-lib/kafka/ccloud"

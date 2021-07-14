@@ -12,7 +12,7 @@ import (
 
 	prometheusLib "github.com/Tracking-SYS/go-lib/prometheus"
 
-	"factory/exam/config"
+	"github.com/Tracking-SYS/tracking-go/config"
 )
 
 //MetricServer ...

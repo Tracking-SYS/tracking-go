@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"factory/exam/repo"
-	"factory/exam/services"
+	"github.com/Tracking-SYS/tracking-go/repo"
+	"github.com/Tracking-SYS/tracking-go/services"
 
 	kafkaLib "github.com/Tracking-SYS/go-lib/kafka"
 )

@@ -7,13 +7,13 @@ package main
 
 import (
 	"context"
-	"factory/exam/config"
-	"factory/exam/handler"
-	"factory/exam/infra"
-	"factory/exam/repo/cache"
-	"factory/exam/repo/mysql"
-	"factory/exam/server"
-	"factory/exam/services"
+	"github.com/Tracking-SYS/tracking-go/config"
+	"github.com/Tracking-SYS/tracking-go/handler"
+	"github.com/Tracking-SYS/tracking-go/infra"
+	"github.com/Tracking-SYS/tracking-go/repo/cache"
+	"github.com/Tracking-SYS/tracking-go/repo/mysql"
+	"github.com/Tracking-SYS/tracking-go/server"
+	"github.com/Tracking-SYS/tracking-go/services"
 )
 
 // Injectors from buildServer.go:
