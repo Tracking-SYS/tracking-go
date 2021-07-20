@@ -8,7 +8,7 @@
 
 1. Set GOPRIVATE environment to download private package
 ```
-export GOPRIVATE=github.com/tikivn
+export GOPRIVATE=github.com/Tracking-SYS
 ```
 2. Compile & build execute binary file
 ```
