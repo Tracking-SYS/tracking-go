@@ -24,6 +24,9 @@ test-cover:
 test-cover-html:
 	go tool cover -html=c.out -o cover.html
 
+run:
+	./out -f kafka.conf
+
 up-depend:
 	go get -u github.com/Tracking-SYS/proto-tracking-gen
 	go get -u github.com/Tracking-SYS/go-lib
