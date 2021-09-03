@@ -21,7 +21,7 @@ make run
 4. Install migrate command
 ```
 curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.darwin-amd64.tar.gz | tar xvz
-mv migrate.darwin-amd64.tar.gz migrate
+mv migrate.darwin-amd64 migrate
 ```
 5. Run migration with version 1
 ```
@@ -46,5 +46,8 @@ KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://[public IP
 ### Locust 
 * How to write locustfile
 [Documentation](https://docs.locust.io/en/latest/writing-a-locustfile.html)
+
+### API Documentation
+[Documentation](https://app.swaggerhub.com/apis-docs/vietnguyen148/Tracking-SYS/1.0)
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)

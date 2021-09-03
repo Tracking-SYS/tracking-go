@@ -32,3 +32,6 @@ up-depend:
 	go get -u github.com/Tracking-SYS/go-lib
 	go mod tidy
 	go mod vendor
+
+lint:
+	golangci-lint run -v || true

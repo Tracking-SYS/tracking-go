@@ -29,7 +29,6 @@ func HTTPProvider(
 	taskPBHandler services_pb.TaskServiceServer,
 ) (*HTTPServer, error) {
 	router := httplib.NewHTTPBuilder()
-
 	gateway := runtime.NewServeMux(gateway.DefaultGateMuxOpts()...)
 	err := errorsLib.ErrAny(
 		services_pb.RegisterProductServiceHandlerServer(ctx, gateway, prodPBHandler),
@@ -48,7 +47,7 @@ func HTTPProvider(
 		r.Use(userMetaMiddleware)
 		r.Mount("/v1", gateway)
 		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-			w.Write([]byte("welcome changes"))
+			_, _ = w.Write([]byte("welcome changes"))
 		})
 	})
 

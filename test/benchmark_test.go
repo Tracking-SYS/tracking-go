@@ -14,7 +14,7 @@ func BenchmarkRandInt(b *testing.B) {
 	r := strings.NewReader("Hello, Reader!")
 	num := big.NewInt(100)
 	for i := 0; i < b.N; i++ {
-		rand.Int(r, num)
+		_, _ = rand.Int(r, num)
 	}
 }
 

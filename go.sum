@@ -44,8 +44,8 @@ github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWX
 github.com/Shopify/toxiproxy v2.1.4+incompatible/go.mod h1:OXgGpZ6Cli1/URJOF1DMxUHB2q5Ap20/P/eIdh4G0pI=
 github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d h1:G0m3OIz70MZUWq3EgK3CesDbo8upS2Vm9/P3FtgI+Jk=
 github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d/go.mod h1:3eOhrUMpNV+6aFIbp5/iudMxNCF27Vw2OZgy4xEx0Fg=
-github.com/Tracking-SYS/go-lib v0.0.1 h1:34EFquHmGwFypw/hgWqgtB3r0O88zWr2NBNmjfOk7SE=
-github.com/Tracking-SYS/go-lib v0.0.1/go.mod h1:sqcGnz/9P5Tfd+iz3yOj/WiahVGCplj3qRRpV2qLGpo=
+github.com/Tracking-SYS/go-lib v0.0.7 h1:3JdpFmdjielqkJWr7rpZc1YIUCH5Y4yhSS8pkN+47XQ=
+github.com/Tracking-SYS/go-lib v0.0.7/go.mod h1:sqcGnz/9P5Tfd+iz3yOj/WiahVGCplj3qRRpV2qLGpo=
 github.com/Tracking-SYS/proto-tracking-gen v0.0.2 h1:RvgLUQ7h/0c7pFv7gYQshvt0fpP2y4Nw9RMYbJsXedI=
 github.com/Tracking-SYS/proto-tracking-gen v0.0.2/go.mod h1:O10Kd0Nxhpu91ot6wti6Jx0M/6SDeJYy7vgKj7+lpKU=
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=

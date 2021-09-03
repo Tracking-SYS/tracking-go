@@ -16,29 +16,36 @@ import (
 
 var _ repo.TaskRepoInterface = &TaskMySQLRepo{}
 
-//TaskMySQLRepo
+//TaskMySQLRepo ...
 type TaskMySQLRepo struct {
 	db       *infra.ConnPool
-	producer *kafkaLib.KafkaProducer
+	producer *kafkaLib.Producer
 	topic    *string
 }
 
-//NewTaskMySQLRepo
+//NewTaskMySQLRepo ...
 func NewTaskMySQLRepo(
 	db *infra.ConnPool,
 ) *TaskMySQLRepo {
 	configPath = ccloud.ParseArgs()
-	producerLib := &kafkaLib.KafkaProducer{
+	producerLib = &kafkaLib.Producer{
 		ConfigFile: configPath,
 	}
-	producerLib.InitConfig()
-	err := producerLib.CreateProducerInstance()
+
+	err := producerLib.InitConfig()
+	if err != nil {
+		fmt.Println("init consumer config has error")
+		os.Exit(1)
+	}
+
+	err = producerLib.CreateProducerInstance()
 	if err != nil {
 		fmt.Println("create producer has error")
 		os.Exit(1)
 	}
-	producerLib.CreateTopic(TASK_KAFKA_TOPIC)
-	topic := TASK_KAFKA_TOPIC
+
+	producerLib.CreateTopic(TaskKafkaTopic)
+	topic := TaskKafkaTopic
 	return &TaskMySQLRepo{
 		db:       db,
 		producer: producerLib,
@@ -71,6 +78,7 @@ func (t *TaskMySQLRepo) Get(ctx context.Context, limit int, page int, ids []uint
 	return taskDAO, nil
 }
 
+//Find ...
 func (t *TaskMySQLRepo) Find(ctx context.Context, id int) (taskDAO *repo.TaskModel, err error) {
 	if err = t.db.Conn.WithContext(ctx).First(&taskDAO, id).Error; err != nil {
 		return nil, err
@@ -97,7 +105,10 @@ func (t *TaskMySQLRepo) Create(ctx context.Context, data *entities_pb.TaskInfo) 
 	if err != nil {
 		fmt.Println("parse data has error")
 	}
-	t.producer.ProduceMessage(t.topic, string(raw))
+	err = t.producer.ProduceMessage(t.topic, string(raw))
+	if err != nil {
+		fmt.Println("produce message has error: ", err)
+	}
 
 	return taskDAO, nil
 }

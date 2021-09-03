@@ -19,7 +19,7 @@ var _ repo.ProductRepoInterface = &ProductMySQLRepo{}
 //ProductMySQLRepo ...
 type ProductMySQLRepo struct {
 	db       *infra.ConnPool
-	producer *kafkaLib.KafkaProducer
+	producer *kafkaLib.Producer
 	topic    *string
 }
 
@@ -28,17 +28,22 @@ func NewProductMySQLRepo(
 	db *infra.ConnPool,
 ) *ProductMySQLRepo {
 	configPath = ccloud.ParseArgs()
-	producerLib := &kafkaLib.KafkaProducer{
+	producerLib = &kafkaLib.Producer{
 		ConfigFile: configPath,
 	}
-	producerLib.InitConfig()
-	err := producerLib.CreateProducerInstance()
+	err := producerLib.InitConfig()
+	if err != nil {
+		fmt.Println("init producer config error")
+	}
+
+	err = producerLib.CreateProducerInstance()
 	if err != nil {
 		fmt.Println("create producer has error")
 		os.Exit(1)
 	}
-	producerLib.CreateTopic(PRODUCT_KAFKA_TOPIC)
-	topic := PRODUCT_KAFKA_TOPIC
+
+	producerLib.CreateTopic(ProductKafkaTopic)
+	topic := ProductKafkaTopic
 	return &ProductMySQLRepo{
 		db:       db,
 		producer: producerLib,
@@ -46,7 +51,7 @@ func NewProductMySQLRepo(
 	}
 }
 
-//GetProduct ...
+//Get ...
 func (p *ProductMySQLRepo) Get(ctx context.Context, limit int, page int, ids []uint64) (productDAO []*repo.ProductModel, err error) {
 	tx := p.db.Conn.WithContext(ctx)
 	if limit != 0 {
@@ -70,6 +75,7 @@ func (p *ProductMySQLRepo) Get(ctx context.Context, limit int, page int, ids []u
 	return productDAO, nil
 }
 
+//Find ...
 func (p *ProductMySQLRepo) Find(ctx context.Context, id int) (productDAO *repo.ProductModel, err error) {
 	if err = p.db.Conn.WithContext(ctx).First(&productDAO, id).Error; err != nil {
 		return nil, err
@@ -94,9 +100,13 @@ func (p *ProductMySQLRepo) Create(ctx context.Context, data *entities_pb.Product
 
 	raw, err := json.Marshal(productDAO)
 	if err != nil {
-		fmt.Println("parse data has error")
+		fmt.Println("parse data has error: ", err)
 	}
-	p.producer.ProduceMessage(p.topic, string(raw))
+
+	err = p.producer.ProduceMessage(p.topic, string(raw))
+	if err != nil {
+		fmt.Println("produce message has error: ", err)
+	}
 
 	return productDAO, nil
 }

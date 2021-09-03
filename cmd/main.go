@@ -21,7 +21,10 @@ func main() {
 	})
 
 	defer func() {
-		server.CloseAll()
+		err := server.CloseAll()
+		if err != nil {
+			fmt.Println("Server Close has problem", err)
+		}
 	}()
 
 	if err := eg.Wait(); err != nil {

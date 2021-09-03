@@ -60,6 +60,11 @@ func (s *MetricServer) Start() error {
 
 //Close ...
 func (s *MetricServer) Close() error {
-	s.server.Shutdown(context.Background())
+	err := s.server.Shutdown(context.Background())
+	if err != nil {
+		fmt.Println("Close MetricServer has error: ", err)
+		return err
+	}
+
 	return nil
 }

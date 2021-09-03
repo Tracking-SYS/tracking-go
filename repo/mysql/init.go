@@ -6,10 +6,13 @@ import (
 
 var (
 	configPath  *string
-	producerLib *kafkaLib.KafkaProducer
+	producerLib *kafkaLib.Producer
 )
 
 const (
-	PRODUCT_KAFKA_TOPIC = "testing_153_product"
-	TASK_KAFKA_TOPIC    = "testing_153_task"
+	//ProductKafkaTopic ...
+	ProductKafkaTopic = "yuuxxq8y-product"
+
+	//TaskKafkaTopic ...
+	TaskKafkaTopic = "yuuxxq8y-task"
 )
