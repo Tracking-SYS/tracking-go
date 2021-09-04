@@ -48,6 +48,7 @@ KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:29092,PLAINTEXT_HOST://[public IP
 [Documentation](https://docs.locust.io/en/latest/writing-a-locustfile.html)
 
 ### API Documentation
-[Documentation](https://app.swaggerhub.com/apis-docs/vietnguyen148/Tracking-SYS/1.0)
+[Task Documentation](https://app.swaggerhub.com/apis-docs/vietnguyen148/Task-API/1.0)
+[Product Documentation](https://app.swaggerhub.com/apis-docs/vietnguyen148/Product-API/1.0)
 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.0-4baaaa.svg)](CODE_OF_CONDUCT.md)
