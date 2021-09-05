@@ -4,7 +4,7 @@ module github.com/Tracking-SYS/tracking-go
 go 1.15
 
 require (
-	github.com/Tracking-SYS/go-lib v0.0.7
+	github.com/Tracking-SYS/go-lib v0.0.8
 	github.com/Tracking-SYS/proto-tracking-gen v0.0.2
 	github.com/bxcodec/faker/v3 v3.6.0
 	github.com/felixge/httpsnoop v1.0.2 // indirect
