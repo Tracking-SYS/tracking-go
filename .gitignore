@@ -3,3 +3,4 @@ out
 .git
 migrate
 c.out
+.env

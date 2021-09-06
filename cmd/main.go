@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
+	"github.com/joho/godotenv"
 	"golang.org/x/sync/errgroup"
 
 	"github.com/Tracking-SYS/tracking-go/utils/shutdown"
@@ -11,6 +13,11 @@ import (
 
 func main() {
 	eg, ctx := errgroup.WithContext(shutdown.NewCtx())
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
 	server, err := buildServer(ctx)
 	if err != nil {
 		fmt.Println("Can not create server: ", err)

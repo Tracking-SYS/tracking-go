@@ -2,16 +2,20 @@ package cache
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 
-	"encoding/json"
-
+	"github.com/Tracking-SYS/tracking-go/utils/envparser"
 	"github.com/go-redis/redis/v8"
 )
 
 const (
+	//FullInfoTTL ...
 	FullInfoTTL = 3 * 24 * time.Hour
+
+	//CachePrefix ...
 	CachePrefix = "cache"
 )
 
@@ -24,15 +28,22 @@ type CacheInteface interface {
 var redisClient *redis.Client
 
 func init() {
+	db, err := strconv.Atoi(envparser.GetString("REDIS_DB", "0"))
+	if err != nil {
+		fmt.Printf("read redis db config error: %v\n", err)
+	}
 	redisClient = redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
+		Network:  envparser.GetString("REDIS_NETWORK", "tcp"),
+		Addr:     envparser.GetString("REDIS_ADDR", "localhost:6379"),
+		Username: envparser.GetString("REDIS_USERNAME", ""),
+		Password: envparser.GetString("REDIS_PASS", ""),
+		DB:       db,
 	})
 }
 
 var _ CacheInteface = &RedisCache{}
 
+//RedisCache ...
 type RedisCache struct {
 	rdb *redis.Client
 }
