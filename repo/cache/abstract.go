@@ -26,21 +26,6 @@ type CacheInteface interface {
 }
 
 var redisClient *redis.Client
-
-func init() {
-	db, err := strconv.Atoi(envparser.GetString("REDIS_DB", "0"))
-	if err != nil {
-		fmt.Printf("read redis db config error: %v\n", err)
-	}
-	redisClient = redis.NewClient(&redis.Options{
-		Network:  envparser.GetString("REDIS_NETWORK", "tcp"),
-		Addr:     envparser.GetString("REDIS_ADDR", "localhost:6379"),
-		Username: envparser.GetString("REDIS_USERNAME", ""),
-		Password: envparser.GetString("REDIS_PASS", ""),
-		DB:       db,
-	})
-}
-
 var _ CacheInteface = &RedisCache{}
 
 //RedisCache ...
@@ -50,6 +35,19 @@ type RedisCache struct {
 
 //NewRedisCacheRepo ...
 func NewRedisCacheRepo() *RedisCache {
+	db, err := strconv.Atoi(envparser.GetString("REDIS_DB", "0"))
+	if err != nil {
+		fmt.Printf("read redis db config error: %v\n", err)
+	}
+
+	redisClient = redis.NewClient(&redis.Options{
+		Network:  envparser.GetString("REDIS_NETWORK", "tcp"),
+		Addr:     envparser.GetString("REDIS_ADDR", "localhost:6379"),
+		Username: envparser.GetString("REDIS_USERNAME", ""),
+		Password: envparser.GetString("REDIS_PASS", ""),
+		DB:       db,
+	})
+
 	return &RedisCache{
 		rdb: redisClient,
 	}

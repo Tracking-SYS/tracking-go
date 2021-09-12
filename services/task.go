@@ -42,12 +42,11 @@ func (ts *TaskService) GetList(ctx context.Context, limit int, page int, ids []u
 }
 
 //GetSingle Task
-func (ts *TaskService) GetSingle(ctx context.Context, id int) *repo.TaskModel {
+func (ts *TaskService) GetSingle(ctx context.Context, id int) (*repo.TaskModel, error) {
 	task, err := ts.cacheRepo.Get(ctx, strconv.Itoa(id))
 
 	if err != nil {
-		fmt.Println(err)
-		return nil
+		return nil, err
 	}
 
 	if task != nil {
@@ -57,30 +56,27 @@ func (ts *TaskService) GetSingle(ctx context.Context, id int) *repo.TaskModel {
 
 	task, err = ts.taskRepo.Find(ctx, id)
 	if err != nil {
-		fmt.Println(err)
-		return nil
+		return nil, err
 	}
 
 	err = ts.cacheRepo.Set(ctx, fmt.Sprintf("task_%s", strconv.Itoa(id)), task)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
-	return task.(*repo.TaskModel)
+	return task.(*repo.TaskModel), nil
 }
 
-func (ts *TaskService) parseData(data map[string]interface{}) (task *repo.TaskModel) {
+func (ts *TaskService) parseData(data map[string]interface{}) (task *repo.TaskModel, err error) {
 	jsonbody, err := json.Marshal(data)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return nil, err
 	}
 
 	if err := json.Unmarshal(jsonbody, &task); err != nil {
-		fmt.Println(err)
-		return
+		return nil, err
 	}
 
-	return task
+	return task, nil
 }
 
 //Create Task

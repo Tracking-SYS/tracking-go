@@ -1,11 +1,16 @@
 package infra
 
 import (
+	"crypto/tls"
+	"crypto/x509"
+	"io/ioutil"
+	"log"
 	"time"
 
 	"github.com/Tracking-SYS/tracking-go/utils/envparser"
 	"github.com/Tracking-SYS/tracking-go/utils/logger"
 
+	mysqlDriver "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -51,8 +56,44 @@ func GetConnectionPool(config Configuration) (*ConnPool, error) {
 
 //InitConfiguration ...
 func InitConfiguration() Configuration {
+	var cfg mysqlDriver.Config
+	var mySQLDSN string
+	isTLS := envparser.GetBool("MYSQL_USE_SSL", false)
+	if isTLS == true {
+		rootCertPool := x509.NewCertPool()
+		pem, err := ioutil.ReadFile("./infra/ca.pem")
+		if err != nil {
+			log.Fatal(err)
+		}
+		if ok := rootCertPool.AppendCertsFromPEM(pem); !ok {
+			log.Fatal("Failed to append PEM.")
+		}
+		mysqlDriver.RegisterTLSConfig("custom", &tls.Config{
+			RootCAs: rootCertPool,
+		})
+
+		// try to connect to mysql database.
+		cfg = mysqlDriver.Config{
+			User:                 "sgroot",
+			Passwd:               "W-tAdT2k9xc1p7xL",
+			Addr:                 "SG-ts-4920-mysql-master.servers.mongodirector.com", //IP:PORT
+			Net:                  "tcp",
+			DBName:               "database",
+			Loc:                  time.Local,
+			AllowNativePasswords: true,
+			Params: map[string]string{
+				"useSSL":                  "true",
+				"verifyServerCertificate": "true",
+			},
+		}
+		cfg.TLSConfig = "custom"
+		mySQLDSN = cfg.FormatDSN()
+	} else {
+		mySQLDSN = envparser.GetString("MYSQL_ADDR", "root:123@tcp(localhost:3306)/tracking?charset=utf8&parseTime=True&loc=Local&multiStatements=true")
+	}
+
 	return Configuration{
-		addr:            envparser.GetString("MYSQL_ADDR", "root:123@tcp(localhost:3306)/tracking?charset=utf8&parseTime=True&loc=Local&multiStatements=true"),
+		addr:            mySQLDSN,
 		maxOpenConns:    envparser.GetInt("POOL_SIZE", 32),
 		maxIdleConns:    envparser.GetInt("MAX_IDLE", 32),
 		connMaxLifetime: time.Duration(envparser.GetInt("MAX_LIFETIME", 30)) * time.Minute,

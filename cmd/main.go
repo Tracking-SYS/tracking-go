@@ -13,7 +13,7 @@ import (
 
 func main() {
 	eg, ctx := errgroup.WithContext(shutdown.NewCtx())
-	err := godotenv.Load()
+	err := godotenv.Load("env.yaml")
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}

@@ -23,9 +23,13 @@ make run
 curl -L https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.darwin-amd64.tar.gz | tar xvz
 mv migrate.darwin-amd64 migrate
 ```
-5. Run migration with version 1
+5. Set environment variables
 ```
-./migrate.sh up 1
+export MYSQL_ADDR=root:123@tcp(localhost:3306)/tracking
+```
+6. Run migration with version 1
+```
+./migrate.sh up
 ```
 ### Tips
 

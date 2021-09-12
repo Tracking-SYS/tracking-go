@@ -54,3 +54,18 @@ func GetArray(key string, separator string, defaultValue []string) []string {
 
 	return strings.Split(envValue, separator)
 }
+
+//GetBool ...
+func GetBool(key string, defaultValue bool) bool {
+	envValue := strings.TrimSpace(os.Getenv(key))
+	if envValue == "" {
+		return defaultValue
+	}
+
+	v, err := strconv.ParseBool(envValue)
+	if err != nil {
+		return defaultValue
+	}
+
+	return v
+}
