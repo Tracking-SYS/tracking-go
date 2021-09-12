@@ -11,14 +11,14 @@ import (
 	servicesPb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 )
 
-//TaskPBHandler
+//TaskPBHandler ...
 type TaskPBHandler struct {
 	servicesPb.UnimplementedTaskServiceServer
 	taskService services.TaskServiceInterface
 	tracer      trace.Tracer
 }
 
-//NewTaskPBHandler
+//NewTaskPBHandler ...
 func NewTaskPBHandler(
 	taskService services.TaskServiceInterface,
 ) *TaskPBHandler {
@@ -40,9 +40,12 @@ func (s *TaskPBHandler) Get(
 	limit := req.GetLimit()
 	page := req.GetPage()
 	ids := req.GetIds()
-	tasks := s.taskService.GetList(ctx, int(limit), int(page), ids)
-	data := s.taskService.Transform(tasks)
+	tasks, err := s.taskService.GetList(ctx, int(limit), int(page), ids)
+	if err != nil {
+		return nil, err
+	}
 
+	data := s.taskService.Transform(tasks)
 	return &servicesPb.TaskServiceGetResponse{
 		Data: data,
 	}, nil
@@ -57,7 +60,11 @@ func (s *TaskPBHandler) GetSingle(
 	defer span.End()
 
 	ID := req.GetId()
-	task := s.taskService.GetSingle(ctx, int(ID))
+	task, err := s.taskService.GetSingle(ctx, int(ID))
+	if err != nil {
+		return nil, err
+	}
+
 	data := s.taskService.TransformSingle(task)
 	return &servicesPb.TaskServiceGetSingleResponse{
 		Data: data,
@@ -73,9 +80,12 @@ func (s *TaskPBHandler) Create(
 	defer span.End()
 
 	data := req.GetData()
-	task := s.taskService.Create(ctx, data)
-	data = s.taskService.TransformSingle(task)
+	task, err := s.taskService.Create(ctx, data)
+	if err != nil {
+		return nil, err
+	}
 
+	data = s.taskService.TransformSingle(task)
 	return &servicesPb.TaskServiceCreateResponse{
 		Data: data,
 	}, nil

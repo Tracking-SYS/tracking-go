@@ -32,21 +32,20 @@ type ProductService struct {
 }
 
 //GetProducts ...
-func (ps *ProductService) GetProducts(ctx context.Context, limit int, page int, ids []uint64) []*repo.ProductModel {
+func (ps *ProductService) GetProducts(ctx context.Context, limit int, page int, ids []uint64) ([]*repo.ProductModel, error) {
 	products, err := ps.productRepo.Get(ctx, limit, page, ids)
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
-	return products
+	return products, nil
 }
 
 //GetProduct ...
-func (ps *ProductService) GetProduct(ctx context.Context, id int) *repo.ProductModel {
+func (ps *ProductService) GetProduct(ctx context.Context, id int) (*repo.ProductModel, error) {
 	product, err := ps.cacheRepo.Get(ctx, strconv.Itoa(id))
 	if err != nil {
-		fmt.Println(err)
-		return nil
+		return nil, err
 	}
 
 	if product != nil {
@@ -56,40 +55,38 @@ func (ps *ProductService) GetProduct(ctx context.Context, id int) *repo.ProductM
 
 	product, err = ps.productRepo.Find(ctx, id)
 	if err != nil {
-		fmt.Println(err)
-		return nil
+		return nil, err
 	}
 
 	err = ps.cacheRepo.Set(ctx, fmt.Sprintf("product_%s", strconv.Itoa(id)), product)
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 
-	return product.(*repo.ProductModel)
+	return product.(*repo.ProductModel), nil
 }
 
-func (ps *ProductService) parseData(data map[string]interface{}) (product *repo.ProductModel) {
+func (ps *ProductService) parseData(data map[string]interface{}) (product *repo.ProductModel, err error) {
 	jsonbody, err := json.Marshal(data)
 	if err != nil {
-		fmt.Println(err)
-		return
+		return nil, err
 	}
 
 	if err := json.Unmarshal(jsonbody, &product); err != nil {
-		fmt.Println(err)
-		return
+		return nil, err
 	}
 
-	return product
+	return product, nil
 }
 
-func (ps *ProductService) CreateProduct(ctx context.Context, data *entities_pb.ProductInfo) *repo.ProductModel {
+//CreateProduct ...
+func (ps *ProductService) CreateProduct(ctx context.Context, data *entities_pb.ProductInfo) (*repo.ProductModel, error) {
 	product, err := ps.productRepo.Create(ctx, data)
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
-	return product
+	return product, nil
 }
 
 //Transform ...
@@ -108,7 +105,7 @@ func (ps *ProductService) Transform(input []*repo.ProductModel) []*entities_pb.P
 	return result
 }
 
-//Transform ...
+//TransformSingle ...
 func (ps *ProductService) TransformSingle(prod *repo.ProductModel) *entities_pb.ProductInfo {
 	if prod == nil {
 		return nil

@@ -14,7 +14,7 @@ import (
 
 var _ TaskServiceInterface = &TaskService{}
 
-//TaskProvider
+//TaskProvider ...
 func TaskProvider(
 	taskRepo repo.TaskRepoInterface,
 	cacheRepo cache.CacheInteface,
@@ -25,23 +25,23 @@ func TaskProvider(
 	}
 }
 
-//TaskService
+//TaskService ...
 type TaskService struct {
 	taskRepo  repo.TaskRepoInterface
 	cacheRepo cache.CacheInteface
 }
 
-//GetList Task
-func (ts *TaskService) GetList(ctx context.Context, limit int, page int, ids []uint64) []*repo.TaskModel {
+//GetList ...
+func (ts *TaskService) GetList(ctx context.Context, limit int, page int, ids []uint64) ([]*repo.TaskModel, error) {
 	tasks, err := ts.taskRepo.Get(ctx, limit, page, ids)
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
-	return tasks
+	return tasks, nil
 }
 
-//GetSingle Task
+//GetSingle ...
 func (ts *TaskService) GetSingle(ctx context.Context, id int) (*repo.TaskModel, error) {
 	task, err := ts.cacheRepo.Get(ctx, strconv.Itoa(id))
 
@@ -79,17 +79,17 @@ func (ts *TaskService) parseData(data map[string]interface{}) (task *repo.TaskMo
 	return task, nil
 }
 
-//Create Task
-func (ts *TaskService) Create(ctx context.Context, data *entities_pb.TaskInfo) *repo.TaskModel {
+//Create ...
+func (ts *TaskService) Create(ctx context.Context, data *entities_pb.TaskInfo) (*repo.TaskModel, error) {
 	task, err := ts.taskRepo.Create(ctx, data)
 	if err != nil {
-		return nil
+		return nil, err
 	}
 
-	return task
+	return task, nil
 }
 
-//Transform Task
+//Transform ...
 func (ts *TaskService) Transform(input []*repo.TaskModel) []*entities_pb.TaskInfo {
 	result := []*entities_pb.TaskInfo{}
 	for _, task := range input {
@@ -106,7 +106,7 @@ func (ts *TaskService) Transform(input []*repo.TaskModel) []*entities_pb.TaskInf
 	return result
 }
 
-//TransformSingle Task
+//TransformSingle ...
 func (ts *TaskService) TransformSingle(task *repo.TaskModel) *entities_pb.TaskInfo {
 	if task == nil {
 		return nil

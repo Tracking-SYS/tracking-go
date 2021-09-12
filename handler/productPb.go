@@ -11,14 +11,14 @@ import (
 	servicesPb "github.com/Tracking-SYS/proto-tracking-gen/go/tracking/services"
 )
 
-//ProductPBHandler
+//ProductPBHandler ...
 type ProductPBHandler struct {
 	servicesPb.UnimplementedProductServiceServer
 	productService services.ProductServiceInterface
 	tracer         trace.Tracer
 }
 
-//NewProductPBHandler
+//NewProductPBHandler ...
 func NewProductPBHandler(
 	productService services.ProductServiceInterface,
 ) *ProductPBHandler {
@@ -29,7 +29,7 @@ func NewProductPBHandler(
 	}
 }
 
-//Get
+//Get ...
 func (p *ProductPBHandler) Get(ctx context.Context,
 	req *servicesPb.ProductServiceGetRequest) (*servicesPb.ProductServiceGetResponse, error) {
 	ctx, span := p.tracer.Start(ctx, "Get")
@@ -38,7 +38,11 @@ func (p *ProductPBHandler) Get(ctx context.Context,
 	limit := req.GetLimit()
 	page := req.GetPage()
 	ids := req.GetIds()
-	products := p.productService.GetProducts(ctx, int(limit), int(page), ids)
+	products, err := p.productService.GetProducts(ctx, int(limit), int(page), ids)
+	if err != nil {
+		return nil, err
+	}
+
 	data := p.productService.Transform(products)
 
 	return &servicesPb.ProductServiceGetResponse{
@@ -46,14 +50,18 @@ func (p *ProductPBHandler) Get(ctx context.Context,
 	}, nil
 }
 
-//GetSingle
+//GetSingle ...
 func (p *ProductPBHandler) GetSingle(ctx context.Context,
 	req *servicesPb.ProductServiceGetSingleRequest) (*servicesPb.ProductServiceGetSingleResponse, error) {
 	ctx, span := p.tracer.Start(ctx, "GetSingle")
 	defer span.End()
 
 	ID := req.GetId()
-	product := p.productService.GetProduct(ctx, int(ID))
+	product, err := p.productService.GetProduct(ctx, int(ID))
+	if err != nil {
+		return nil, err
+	}
+
 	data := p.productService.TransformSingle(product)
 
 	return &servicesPb.ProductServiceGetSingleResponse{
@@ -61,14 +69,18 @@ func (p *ProductPBHandler) GetSingle(ctx context.Context,
 	}, nil
 }
 
-//Create
+//Create ...
 func (p *ProductPBHandler) Create(ctx context.Context,
 	req *servicesPb.ProductServiceCreateRequest) (*servicesPb.ProductServiceCreateResponse, error) {
 	ctx, span := p.tracer.Start(ctx, "Create")
 	defer span.End()
 
 	data := req.GetData()
-	product := p.productService.CreateProduct(ctx, data)
+	product, err := p.productService.CreateProduct(ctx, data)
+	if err != nil {
+		return nil, err
+	}
+
 	data = p.productService.TransformSingle(product)
 
 	return &servicesPb.ProductServiceCreateResponse{
